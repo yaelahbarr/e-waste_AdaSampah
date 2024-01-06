@@ -8,6 +8,8 @@ package user;
  *
  * @author wdead
  */
+
+// membuat kelas User
 public class User {
     
     private String id;
@@ -15,7 +17,7 @@ public class User {
     private String email;
     private String password;
    
-    
+//    abc kopi
     public void setId(String id) {
         this.id = id;
     }
