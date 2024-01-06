@@ -8,6 +8,8 @@ package user;
  *
  * @author wdead
  */
+
+// membuat kelas User
 public class User {
     
     private String id;
