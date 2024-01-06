@@ -6,7 +6,7 @@ package user;
 
 /**
  *
- * @author wdead
+ * @author KELOMPOK SERIGALA
  */
 public class User {
     
