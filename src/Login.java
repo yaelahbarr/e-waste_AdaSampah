@@ -174,6 +174,15 @@ public class Login extends javax.swing.JFrame {
         if (rs.next()) {
             if(txtemail.getText().equals(rs.getString("email"))&&txtpassword.getText().equals(rs.getString("password"))) {
                 JOptionPane.showMessageDialog(null, "berhasil login");
+                
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setEmail(rs.getString("email"));
+                user.setNama(rs.getString("nama"));
+                user.setAlamat(rs.getString("alamat"));
+                user.setNoTelepon(rs.getString("no_telepon"));
+                user.setTempatTanggalLahir(rs.getString("tempat_tanggal_lahir"));
+                
                 this.setVisible(false);
                 new Profil().setVisible(true);
             }

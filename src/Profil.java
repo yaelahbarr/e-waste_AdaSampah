@@ -150,7 +150,8 @@ public class Profil extends javax.swing.JFrame {
 
     private void btnsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsubmitActionPerformed
          try {
-    String sql = "UPDATE user SET nama=?, no_telepon=?, tempat_tanggal_lahir=?, alamat=? WHERE email=?";
+             User user = new User();
+    String sql = "UPDATE user SET nama=?, no_telepon=?, tempat_tanggal_lahir=?, alamat=? WHERE id=?";
     
     java.sql.Connection connection = MySqlConnection.getInstance().getConnection();
     java.sql.PreparedStatement pst = connection.prepareStatement(sql);
@@ -159,7 +160,7 @@ public class Profil extends javax.swing.JFrame {
     pst.setString(2, txtnotelp.getText()); // Assuming no_telepon is the second column
     pst.setString(3, txtttl.getText()); // Assuming tempat_tanggal_lahir is the third column
     pst.setString(4, txtalamat.getText()); // Assuming alamat is the fourth column
-    pst.setString(5, user); // Assuming userEmail is the email of the user you want to update
+    pst.setInt(5, user.getId()); // Assuming userEmail is the email of the user you want to update
 
     int rowsUpdated = pst.executeUpdate();
 
