@@ -182,9 +182,12 @@ public class Login extends javax.swing.JFrame {
                 user.setAlamat(rs.getString("alamat"));
                 user.setNoTelepon(rs.getString("no_telepon"));
                 user.setTempatTanggalLahir(rs.getString("tempat_tanggal_lahir"));
-                
+                System.out.println("userid: " + user.getId()); 
                 this.setVisible(false);
-                new Profil().setVisible(true);
+                Profil profil = new Profil();
+      
+                profil.setUserid(user.getId());
+                profil.setVisible(true);
             }
         }else {
             JOptionPane.showMessageDialog(null, "password atau email salah");

@@ -11,12 +11,16 @@ import javax.swing.JOptionPane;
  * @author wdead
  */
 public class Profil extends javax.swing.JFrame {
-
+    public int userid = 0;
     /**
      * Creates new form Profil
      */
     public Profil() {
         initComponents();
+    }
+    
+    public void setUserid(int userid) {
+        this.userid = userid;
     }
 
     /**
@@ -150,17 +154,16 @@ public class Profil extends javax.swing.JFrame {
 
     private void btnsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsubmitActionPerformed
          try {
-             User user = new User();
+   
     String sql = "UPDATE user SET nama=?, no_telepon=?, tempat_tanggal_lahir=?, alamat=? WHERE id=?";
     
     java.sql.Connection connection = MySqlConnection.getInstance().getConnection();
     java.sql.PreparedStatement pst = connection.prepareStatement(sql);
-
     pst.setString(1, txtnama.getText()); // Assuming nama is the first column
     pst.setString(2, txtnotelp.getText()); // Assuming no_telepon is the second column
     pst.setString(3, txtttl.getText()); // Assuming tempat_tanggal_lahir is the third column
     pst.setString(4, txtalamat.getText()); // Assuming alamat is the fourth column
-    pst.setInt(5, user.getId()); // Assuming userEmail is the email of the user you want to update
+    pst.setInt(5, this.userid); // Assuming userEmail is the email of the user you want to update
 
     int rowsUpdated = pst.executeUpdate();
 
@@ -208,8 +211,9 @@ public class Profil extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Profil().setVisible(true);
-            }
+               User user = new User();
+                new Profil().setVisible(true);                
+            }   
         });
     }
 
