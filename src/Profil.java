@@ -150,17 +150,30 @@ public class Profil extends javax.swing.JFrame {
 
     private void btnsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsubmitActionPerformed
          try {
-            String sql ="INSERT INTO user VALUES ('"+txtnama.getText()+"','"+txtnotelp.getText()+"''"+txtttl.getText()+"''"+txtalamat.getText()+"')";
-            java.sql.Connection connection=MySqlConnection.getInstance().getConnection();
-            java.sql.PreparedStatement pst=connection.prepareStatement(sql);
-            pst.execute();
-            JOptionPane.showMessageDialog(null, "data berhasil disimpan");
-            this.setVisible(false);
-            new DataSampah().setVisible(true);
-            
-        } catch(Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
+    String sql = "UPDATE user SET nama=?, no_telepon=?, tempat_tanggal_lahir=?, alamat=? WHERE email=?";
+    
+    java.sql.Connection connection = MySqlConnection.getInstance().getConnection();
+    java.sql.PreparedStatement pst = connection.prepareStatement(sql);
+
+    pst.setString(1, txtnama.getText()); // Assuming nama is the first column
+    pst.setString(2, txtnotelp.getText()); // Assuming no_telepon is the second column
+    pst.setString(3, txtttl.getText()); // Assuming tempat_tanggal_lahir is the third column
+    pst.setString(4, txtalamat.getText()); // Assuming alamat is the fourth column
+    pst.setString(5, user); // Assuming userEmail is the email of the user you want to update
+
+    int rowsUpdated = pst.executeUpdate();
+
+    if (rowsUpdated > 0) {
+        JOptionPane.showMessageDialog(null, "Data berhasil diupdate");
+        this.setVisible(false);
+        new DataSampah().setVisible(true);
+    } else {
+        JOptionPane.showMessageDialog(null, "Gagal mengupdate data. Cek kembali input Anda.");
+    }
+
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, e.getMessage());
+}
 
     }//GEN-LAST:event_btnsubmitActionPerformed
 
