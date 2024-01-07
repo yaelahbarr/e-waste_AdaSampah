@@ -146,7 +146,7 @@ public class Register extends javax.swing.JFrame {
 
     private void btnsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsubmitActionPerformed
         try {
-            String sql = "INSERT INTO akun ( email, password) VALUES ('"+ txtemail.getText() + "', '" + txtpassword.getText() + "')";
+            String sql = "INSERT INTO user ( email, password) VALUES ('"+ txtemail.getText() + "', '" + txtpassword.getText() + "')";
             java.sql.Connection connection=MySqlConnection.getInstance().getConnection();
             java.sql.PreparedStatement pst=connection.prepareStatement(sql);
             pst.execute();

@@ -167,7 +167,7 @@ public class Login extends javax.swing.JFrame {
 
     private void btnsigninActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsigninActionPerformed
         try {
-        String sql = "SELECT * FROM akun WHERE email=('"+txtemail.getText()+"')AND password=('"+txtpassword.getText()+"')";
+        String sql = "SELECT * FROM user WHERE email=('"+txtemail.getText()+"')AND password=('"+txtpassword.getText()+"')";
         java.sql.Connection connection=MySqlConnection.getInstance().getConnection();
         java.sql.PreparedStatement pst=connection.prepareStatement(sql);
         java.sql.ResultSet rs= pst.executeQuery(sql);
