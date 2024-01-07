@@ -53,10 +53,12 @@ public class Register extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Email");
 
+        txtemail.setForeground(new java.awt.Color(0, 0, 0));
+
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Password");
 
-        txtpassword.setForeground(new java.awt.Color(204, 204, 204));
+        txtpassword.setForeground(new java.awt.Color(0, 0, 0));
 
         btnsubmit.setBackground(new java.awt.Color(0, 102, 255));
         btnsubmit.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
