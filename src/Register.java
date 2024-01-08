@@ -1,4 +1,5 @@
 
+import java.security.SecureRandom;
 import javax.swing.JOptionPane;
 
 /*
@@ -156,9 +157,17 @@ public class Register extends javax.swing.JFrame {
             java.sql.Connection connection=MySqlConnection.getInstance().getConnection();
             java.sql.PreparedStatement pst=connection.prepareStatement(sql);
             pst.execute();
-            JOptionPane.showMessageDialog(null, "data berhasil disimpan");
+            
+            SecureRandom random = new SecureRandom();
+            int otpCode = 100000 + random.nextInt(900000);
+            String sqlOtp = "INSERT INTO otp_verifications (email, otp_code) VALUES ('" + txtemail.getText() + "', '" + otpCode + "')";
+            java.sql.Connection connectionOTP = MySqlConnection.getInstance().getConnection();
+            java.sql.PreparedStatement pstOTP = connectionOTP.prepareStatement(sqlOtp);
+            pstOTP.execute();
+            
+            JOptionPane.showMessageDialog(null, "Berhasil registrasi, silahkan aktivasi akun anda terlebih dahulu");
             this.setVisible(false);
-            new Login().setVisible(true);
+            new OtpAktivasiAkun().setVisible(true);
             
         } catch(Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());

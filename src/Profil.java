@@ -5,22 +5,24 @@ import javax.swing.JOptionPane;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author wdead
  */
 public class Profil extends javax.swing.JFrame {
+
     public int userid = 0;
+
     /**
      * Creates new form Profil
      */
     public Profil() {
         initComponents();
     }
-    
+
     public void setUserid(int userid) {
         this.userid = userid;
+        displayUserData();
     }
 
     /**
@@ -53,7 +55,6 @@ public class Profil extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Profil Manager");
 
         btnsubmit.setBackground(new java.awt.Color(51, 102, 255));
@@ -65,7 +66,6 @@ public class Profil extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Nama");
 
         txtnama.addActionListener(new java.awt.event.ActionListener() {
@@ -74,7 +74,6 @@ public class Profil extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Alamat");
 
         txtalamat.addActionListener(new java.awt.event.ActionListener() {
@@ -83,10 +82,8 @@ public class Profil extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Nomor Telpon");
 
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Tempat/Tanggal Lahir");
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 51));
@@ -176,9 +173,9 @@ public class Profil extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(jLabel7))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtttl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtnama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtnama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtttl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -217,39 +214,92 @@ public class Profil extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtnamaActionPerformed
 
-    private void btnsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsubmitActionPerformed
-         try {
-   
-    String sql = "UPDATE user SET nama=?, no_telepon=?, tempat_tanggal_lahir=?, alamat=? WHERE id=?";
-    
-    java.sql.Connection connection = MySqlConnection.getInstance().getConnection();
-    java.sql.PreparedStatement pst = connection.prepareStatement(sql);
-    pst.setString(1, txtnama.getText()); // Assuming nama is the first column
-    pst.setString(2, txtnotelp.getText()); // Assuming no_telepon is the second column
-    pst.setString(3, txtttl.getText()); // Assuming tempat_tanggal_lahir is the third column
-    pst.setString(4, txtalamat.getText()); // Assuming alamat is the fourth column
-    pst.setInt(5, this.userid); // Assuming userEmail is the email of the user you want to update
+    private void displayUserData() {
+        try {
+            String sql = "SELECT * FROM user WHERE id = ?";
+            java.sql.Connection connection = MySqlConnection.getInstance().getConnection();
+            java.sql.PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setInt(1, this.userid);
 
-    int rowsUpdated = pst.executeUpdate();
+            java.sql.ResultSet rs = pst.executeQuery();
 
-    if (rowsUpdated > 0) {
-        JOptionPane.showMessageDialog(null, "Data berhasil diupdate");
-        this.setVisible(false);
-        new DataSampah().setVisible(true);
-    } else {
-        JOptionPane.showMessageDialog(null, "Gagal mengupdate data. Cek kembali input Anda.");
+            if (rs.next()) {
+                txtnama.setText(rs.getString("nama"));
+                txtttl.setText(rs.getString("tempat_tanggal_lahir"));
+                txtnotelp.setText(rs.getString("no_telepon"));
+                txtalamat.setText(rs.getString("alamat"));
+            } else {
+                JOptionPane.showMessageDialog(null, "Data pengguna tidak ditemukan.");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }
 
-} catch (Exception e) {
-    JOptionPane.showMessageDialog(this, e.getMessage());
-}
+
+    private void btnsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsubmitActionPerformed
+        try {
+
+            String sql = "UPDATE user SET nama=?, no_telepon=?, tempat_tanggal_lahir=?, alamat=? WHERE id=?";
+
+            java.sql.Connection connection = MySqlConnection.getInstance().getConnection();
+            java.sql.PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setString(1, txtnama.getText()); // Assuming nama is the first column
+            pst.setString(2, txtnotelp.getText()); // Assuming no_telepon is the second column
+            pst.setString(3, txtttl.getText()); // Assuming tempat_tanggal_lahir is the third column
+            pst.setString(4, txtalamat.getText()); // Assuming alamat is the fourth column
+            pst.setInt(5, this.userid); // Assuming userEmail is the email of the user you want to update
+
+            int rowsUpdated = pst.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                JOptionPane.showMessageDialog(null, "Data berhasil diupdate");
+                this.setVisible(false);
+                new DataSampah().setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Gagal mengupdate data. Cek kembali input Anda.");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
 
     }//GEN-LAST:event_btnsubmitActionPerformed
 
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
-        Login halamanlogin = new Login();
-        halamanlogin.setVisible(true);
-        dispose(); // Tutup frame utama
+        try {
+            // Query untuk menghapus data pengguna berdasarkan id
+            String deleteSql = "DELETE FROM user WHERE id = ?";
+
+            // Mendapatkan koneksi ke database
+            java.sql.Connection connection = MySqlConnection.getInstance().getConnection();
+
+            // Mempersiapkan statement SQL
+            java.sql.PreparedStatement deleteStatement = connection.prepareStatement(deleteSql);
+
+            // Mengatur parameter id pada statement SQL
+            deleteStatement.setInt(1, this.userid);
+
+            // Menjalankan pernyataan DELETE
+            int rowsDeleted = deleteStatement.executeUpdate();
+
+            if (rowsDeleted > 0) {
+                // Jika data berhasil dihapus
+                JOptionPane.showMessageDialog(null, "Data pengguna berhasil dihapus");
+                Login halamanlogin = new Login();
+                halamanlogin.setVisible(true);
+                dispose(); // Tutup frame utama
+            } else {
+                // Jika tidak ada data yang dihapus (id tidak ditemukan)
+                JOptionPane.showMessageDialog(null, "Data pengguna tidak ditemukan.");
+            }
+        } catch (Exception e) {
+            // Menangani exception jika terjadi kesalahan
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan: " + e.getMessage());
+        }
+
+
     }//GEN-LAST:event_btndeleteActionPerformed
 
     private void btndatasampahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndatasampahActionPerformed
@@ -288,9 +338,9 @@ public class Profil extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-               User user = new User();
-                new Profil().setVisible(true);                
-            }   
+                User user = new User();
+                new Profil().setVisible(true);
+            }
         });
     }
 

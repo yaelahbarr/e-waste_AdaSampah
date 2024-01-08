@@ -1,3 +1,7 @@
+
+import java.security.SecureRandom;
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -139,6 +143,21 @@ public class LupaPassword extends javax.swing.JFrame {
 
     private void btnsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsubmitActionPerformed
         // TODO add your handling code here:
+        try {
+            SecureRandom random = new SecureRandom();
+            int otpCode = 100000 + random.nextInt(900000);
+            String sql = "INSERT INTO otp_verifications (email, otp_code) VALUES ('" + txtemail.getText() + "', '" + otpCode + "')";
+            java.sql.Connection connection = MySqlConnection.getInstance().getConnection();
+            java.sql.PreparedStatement pst = connection.prepareStatement(sql);
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "Kami telah mengirim kode otp ke email anda untuk konfirmasi ubah password");
+            this.setVisible(false);
+            //> ganti jadi tampilan konfirmasi otp
+            new OtpUbahPassword().setVisible(true);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }//GEN-LAST:event_btnsubmitActionPerformed
 
     /**
