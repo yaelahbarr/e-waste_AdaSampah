@@ -132,7 +132,7 @@ public class OtpAktivasiAkun extends javax.swing.JFrame {
                 String email = rs.getString("email");  // Sesuaikan dengan kolom yang sesuai di tabel otp_verifications
 
                 // Query untuk melakukan update is_active di tabel users
-                String updateIsActiveQuery = "UPDATE users SET is_active = 1 WHERE email = ?";
+                String updateIsActiveQuery = "UPDATE user SET is_active = 1 WHERE email = ?";
                 java.sql.PreparedStatement updateIsActiveStatement = connection.prepareStatement(updateIsActiveQuery);
                 updateIsActiveStatement.setString(1, email);
                 updateIsActiveStatement.executeUpdate();

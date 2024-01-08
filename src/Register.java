@@ -6,7 +6,6 @@ import javax.swing.JOptionPane;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author wdead
@@ -153,23 +152,35 @@ public class Register extends javax.swing.JFrame {
 
     private void btnsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsubmitActionPerformed
         try {
-            String sql = "INSERT INTO user ( email, password) VALUES ('"+ txtemail.getText() + "', '" + txtpassword.getText() + "')";
-            java.sql.Connection connection=MySqlConnection.getInstance().getConnection();
-            java.sql.PreparedStatement pst=connection.prepareStatement(sql);
-            pst.execute();
-            
-            SecureRandom random = new SecureRandom();
-            int otpCode = 100000 + random.nextInt(900000);
-            String sqlOtp = "INSERT INTO otp_verifications (email, otp_code) VALUES ('" + txtemail.getText() + "', '" + otpCode + "')";
-            java.sql.Connection connectionOTP = MySqlConnection.getInstance().getConnection();
-            java.sql.PreparedStatement pstOTP = connectionOTP.prepareStatement(sqlOtp);
-            pstOTP.execute();
-            
-            JOptionPane.showMessageDialog(null, "Berhasil registrasi, silahkan aktivasi akun anda terlebih dahulu");
-            this.setVisible(false);
-            new OtpAktivasiAkun().setVisible(true);
-            
-        } catch(Exception e) {
+            String checkEmailSql = "SELECT * FROM user WHERE email = ?";
+            java.sql.Connection checkEmailConnection = MySqlConnection.getInstance().getConnection();
+            java.sql.PreparedStatement checkEmailStatement = checkEmailConnection.prepareStatement(checkEmailSql);
+            checkEmailStatement.setString(1, txtemail.getText());
+
+            java.sql.ResultSet emailResultSet = checkEmailStatement.executeQuery();
+
+            if (emailResultSet.next()) {
+                // Jika email sudah terdaftar, berikan pesan kesalahan
+                JOptionPane.showMessageDialog(null, "Email sudah terdaftar. Gunakan email lain.");
+            } else {
+
+                String sql = "INSERT INTO user ( email, password) VALUES ('" + txtemail.getText() + "', '" + txtpassword.getText() + "')";
+                java.sql.Connection connection = MySqlConnection.getInstance().getConnection();
+                java.sql.PreparedStatement pst = connection.prepareStatement(sql);
+                pst.execute();
+
+                SecureRandom random = new SecureRandom();
+                int otpCode = 100000 + random.nextInt(900000);
+                String sqlOtp = "INSERT INTO otp_verifications (email, otp_code) VALUES ('" + txtemail.getText() + "', '" + otpCode + "')";
+                java.sql.Connection connectionOTP = MySqlConnection.getInstance().getConnection();
+                java.sql.PreparedStatement pstOTP = connectionOTP.prepareStatement(sqlOtp);
+                pstOTP.execute();
+
+                JOptionPane.showMessageDialog(null, "Berhasil registrasi, silahkan aktivasi akun anda terlebih dahulu");
+                this.setVisible(false);
+                new OtpAktivasiAkun().setVisible(true);
+            }
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_btnsubmitActionPerformed

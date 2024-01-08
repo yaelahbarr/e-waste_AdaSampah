@@ -256,7 +256,10 @@ public class Profil extends javax.swing.JFrame {
             if (rowsUpdated > 0) {
                 JOptionPane.showMessageDialog(null, "Data berhasil diupdate");
                 this.setVisible(false);
-                new DataSampah().setVisible(true);
+                DataSampah dataSampah = new DataSampah();
+
+                dataSampah.setUserid(this.userid);
+                dataSampah.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Gagal mengupdate data. Cek kembali input Anda.");
             }
