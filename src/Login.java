@@ -1,11 +1,11 @@
 
+import java.security.SecureRandom;
 import javax.swing.JOptionPane;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author wdead
@@ -193,34 +193,54 @@ public class Login extends javax.swing.JFrame {
 
     private void btnsigninActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsigninActionPerformed
         try {
-        String sql = "SELECT * FROM user WHERE email=('"+txtemail.getText()+"')AND password=('"+txtpassword.getText()+"')";
-        java.sql.Connection connection=MySqlConnection.getInstance().getConnection();
-        java.sql.PreparedStatement pst=connection.prepareStatement(sql);
-        java.sql.ResultSet rs= pst.executeQuery(sql);
-        if (rs.next()) {
-            if(txtemail.getText().equals(rs.getString("email"))&&txtpassword.getText().equals(rs.getString("password"))) {
-                JOptionPane.showMessageDialog(null, "berhasil login");
-                
-                User user = new User();
-                user.setId(rs.getInt("id"));
-                user.setEmail(rs.getString("email"));
-                user.setNama(rs.getString("nama"));
-                user.setAlamat(rs.getString("alamat"));
-                user.setNoTelepon(rs.getString("no_telepon"));
-                user.setTempatTanggalLahir(rs.getString("tempat_tanggal_lahir"));
-                System.out.println("userid: " + user.getId()); 
-                this.setVisible(false);
-                Profil profil = new Profil();
-      
-                profil.setUserid(user.getId());
-                profil.setVisible(true);
+            String sql = "SELECT * FROM user WHERE email=('" + txtemail.getText() + "')AND password=('" + txtpassword.getText() + "')";
+            java.sql.Connection connection = MySqlConnection.getInstance().getConnection();
+            java.sql.PreparedStatement pst = connection.prepareStatement(sql);
+            java.sql.ResultSet rs = pst.executeQuery(sql);
+            if (rs.next()) {
+                if (txtemail.getText().equals(rs.getString("email")) && txtpassword.getText().equals(rs.getString("password"))) {
+                    
+                    if (rs.getInt("is_active") == 0) {
+                        JOptionPane.showMessageDialog(null, "Akun anda belum aktif, Lakukan aktifasi sekarang");
+                        
+                        SecureRandom random = new SecureRandom();
+                        int otpCode = 100000 + random.nextInt(900000);
+                        String sqlOtp = "INSERT INTO otp_verifications (email, otp_code) VALUES ('" + txtemail.getText() + "', '" + otpCode + "')";
+                        java.sql.Connection connectionOTP = MySqlConnection.getInstance().getConnection();
+                        java.sql.PreparedStatement pstOTP = connectionOTP.prepareStatement(sqlOtp);
+                        pstOTP.execute();
+                        
+                        JOptionPane.showMessageDialog(null, "Silahkan aktivasi akun anda terlebih dahulu");
+                        this.setVisible(false);
+                        new OtpAktivasiAkun().setVisible(true);
+                    }
+                    JOptionPane.showMessageDialog(null, "berhasil login");
+                    
+                    User user = new User();
+                    user.setId(rs.getInt("id"));
+                    user.setEmail(rs.getString("email"));
+                    user.setNama(rs.getString("nama"));
+                    user.setAlamat(rs.getString("alamat"));
+                    user.setNoTelepon(rs.getString("no_telepon"));
+                    user.setTempatTanggalLahir(rs.getString("tempat_tanggal_lahir"));
+                    
+                    if (!user.getAlamat().isEmpty() && !user.getNoTelepon().isEmpty() && !user.getTempatTanggalLahir().isEmpty()) {
+                        Profil profil = new Profil();
+                        
+                        profil.setUserid(user.getId());
+                        profil.setVisible(true);
+                    } else {
+                         DataSampah dataSampah = new DataSampah();
+                        
+                        dataSampah.setUserid(user.getId());
+                        dataSampah.setVisible(true);
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "password atau email salah");
             }
-        }else {
-            JOptionPane.showMessageDialog(null, "password atau email salah");
-        }
-        
-        }
-        catch(Exception e) {
+            
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_btnsigninActionPerformed

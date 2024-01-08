@@ -1,3 +1,6 @@
+
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -9,12 +12,19 @@
  */
 public class UbahPassword extends javax.swing.JFrame {
 
+    public String email;
+
     /**
      * Creates new form UbahPassword
      */
     public UbahPassword() {
         initComponents();
     }
+
+    public void setUserEmail(String email) {
+        this.email = email;
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -147,6 +157,30 @@ public class UbahPassword extends javax.swing.JFrame {
 
     private void btnsubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsubmitActionPerformed
         // TODO add your handling code here:
+        try {
+            String newPassword = new String(txtubahpassword.getText());
+            String confirmPassword = new String(txtkonfirmasipasswordbaru.getText());
+
+            // Periksa apakah password baru dan konfirmasi password sama
+            if (newPassword.equals(confirmPassword)) {
+                String sql = "UPDATE user SET password = ? WHERE email = ?";
+                java.sql.Connection connection = MySqlConnection.getInstance().getConnection();
+                java.sql.PreparedStatement pst = connection.prepareStatement(sql);
+                pst.setString(1, newPassword);
+                pst.setString(2, this.email);
+                pst.execute();
+                JOptionPane.showMessageDialog(null, "Berhasil memperbaharui password, silahkan login kembali");
+                this.setVisible(false);
+                //> ganti jadi tampilan konfirmasi otp
+                new Login().setVisible(true);
+            } else {
+                // Jika password baru dan konfirmasi password tidak sama, berikan pesan kesalahan
+                JOptionPane.showMessageDialog(null, "Password baru dan konfirmasi password tidak sama.");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }//GEN-LAST:event_btnsubmitActionPerformed
 
     /**

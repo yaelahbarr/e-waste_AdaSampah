@@ -1,6 +1,4 @@
 
-
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -12,25 +10,31 @@ import java.sql.ResultSetMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author wdead
  */
 public class DataSampah extends javax.swing.JFrame {
+
     public Connection con;
     public Statement st;
     public ResultSet rs;
     public DefaultTableModel model;
-    
-    
+    public int userid = 0;
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+
     public DataSampah() {
         initComponents();
         String[] header = {"No", "Kategori", "Jenis", "Total"};
-        model = new DefaultTableModel(header,0);
+        model = new DefaultTableModel(header, 0);
         tablesampah.setModel(model);
         tampil();
     }
-    
+
     public void tampil() {
         MySqlConnection connection = new MySqlConnection();
         try {
@@ -38,14 +42,14 @@ public class DataSampah extends javax.swing.JFrame {
             st = con.createStatement();
             rs = st.executeQuery("SELECT * FROM sampah");
             int no = 1;
-            while(rs.next()) {
+            while (rs.next()) {
                 String[] row = {Integer.toString(no), rs.getString(2), rs.getString(3), rs.getString(4)};
                 model.addRow(row);
                 no++;
             }
             tablesampah.setModel(model);
-            
-        } catch(SQLException e) {
+
+        } catch (SQLException e) {
             System.out.print(e.getMessage());
         }
     }
@@ -180,20 +184,21 @@ public class DataSampah extends javax.swing.JFrame {
 
     private void btnprofilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnprofilActionPerformed
 
-                // Pindah ke halaman kedua saat tombol diklik
-                Profil halamanprofil = new Profil();
-                halamanprofil.setVisible(true);
-                dispose(); // Tutup frame utama
-            
+        // Pindah ke halaman kedua saat tombol diklik
+        Profil halamanprofil = new Profil();
+        halamanprofil.setUserid(this.userid);
+        halamanprofil.setVisible(true);
+        dispose(); // Tutup frame utama
+
 
     }//GEN-LAST:event_btnprofilActionPerformed
 
     private void btnlogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlogoutActionPerformed
         // Pindah ke halaman kedua saat tombol diklik
-                JOptionPane.showMessageDialog(null, "Anda telah logout");
-                Login halamanlogin = new Login();
-                halamanlogin.setVisible(true);
-                dispose(); // Tutup frame utama
+        JOptionPane.showMessageDialog(null, "Anda telah logout");
+        Login halamanlogin = new Login();
+        halamanlogin.setVisible(true);
+        dispose(); // Tutup frame utama
     }//GEN-LAST:event_btnlogoutActionPerformed
 
     /**

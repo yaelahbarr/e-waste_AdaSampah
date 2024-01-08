@@ -1,3 +1,6 @@
+
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -30,7 +33,7 @@ public class OtpAktivasiAkun extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtotp = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnSubmitOtp = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -42,9 +45,14 @@ public class OtpAktivasiAkun extends javax.swing.JFrame {
 
         jLabel2.setText("Masukan Aktivasi OTP");
 
-        jButton1.setBackground(new java.awt.Color(51, 102, 255));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("SUBMIT");
+        btnSubmitOtp.setBackground(new java.awt.Color(51, 102, 255));
+        btnSubmitOtp.setForeground(new java.awt.Color(255, 255, 255));
+        btnSubmitOtp.setText("SUBMIT");
+        btnSubmitOtp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubmitOtpActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -62,7 +70,7 @@ public class OtpAktivasiAkun extends javax.swing.JFrame {
                             .addComponent(jLabel2)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(126, 126, 126)
-                        .addComponent(jButton1)))
+                        .addComponent(btnSubmitOtp)))
                 .addContainerGap(72, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -75,7 +83,7 @@ public class OtpAktivasiAkun extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtotp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(71, 71, 71)
-                .addComponent(jButton1)
+                .addComponent(btnSubmitOtp)
                 .addContainerGap(87, Short.MAX_VALUE))
         );
 
@@ -109,6 +117,33 @@ public class OtpAktivasiAkun extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSubmitOtpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitOtpActionPerformed
+        // TODO add your handling code here:
+         try {
+            String otpInput = new String(txtotp.getText());
+
+                String sql = "SELECT * FROM otp_verifications WHERE otp_code = "+otpInput;
+                java.sql.Connection connection=MySqlConnection.getInstance().getConnection();
+                java.sql.PreparedStatement pst=connection.prepareStatement(sql);
+                java.sql.ResultSet rs= pst.executeQuery(sql);
+                
+        if (rs.next()) {
+            
+                JOptionPane.showMessageDialog(null, "Berhasil aktivasi akun, silahkan login");
+                this.setVisible(false);
+                
+                new Login().setVisible(true);
+               
+            } else {
+                // Jika password baru dan konfirmasi password tidak sama, berikan pesan kesalahan
+                JOptionPane.showMessageDialog(null, "Otp anda tidak valid");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_btnSubmitOtpActionPerformed
 
     /**
      * @param args the command line arguments
@@ -146,7 +181,7 @@ public class OtpAktivasiAkun extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnSubmitOtp;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
