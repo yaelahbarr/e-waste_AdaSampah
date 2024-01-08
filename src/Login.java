@@ -49,10 +49,8 @@ public class Login extends javax.swing.JFrame {
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("LOGIN");
 
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Email");
 
         txtemail.addActionListener(new java.awt.event.ActionListener() {
@@ -61,7 +59,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Password");
 
         btnsignin.setBackground(new java.awt.Color(51, 102, 255));
@@ -82,15 +79,17 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Belum punya akun? register sekarang");
 
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Lupa password?");
 
         btnlupapassword.setBackground(new java.awt.Color(255, 255, 0));
-        btnlupapassword.setForeground(new java.awt.Color(0, 0, 0));
         btnlupapassword.setText("?");
+        btnlupapassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnlupapasswordActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -199,47 +198,54 @@ public class Login extends javax.swing.JFrame {
             java.sql.ResultSet rs = pst.executeQuery(sql);
             if (rs.next()) {
                 if (txtemail.getText().equals(rs.getString("email")) && txtpassword.getText().equals(rs.getString("password"))) {
-                    
+
                     if (rs.getInt("is_active") == 0) {
+                        String deleteOtpQuery = "DELETE FROM otp_verifications WHERE email = ?";
+                        java.sql.PreparedStatement deleteOtpStatement = connection.prepareStatement(deleteOtpQuery);
+                        deleteOtpStatement.setString(1, txtemail.getText());
+                        deleteOtpStatement.executeUpdate();
                         JOptionPane.showMessageDialog(null, "Akun anda belum aktif, Lakukan aktifasi sekarang");
-                        
+
                         SecureRandom random = new SecureRandom();
                         int otpCode = 100000 + random.nextInt(900000);
                         String sqlOtp = "INSERT INTO otp_verifications (email, otp_code) VALUES ('" + txtemail.getText() + "', '" + otpCode + "')";
                         java.sql.Connection connectionOTP = MySqlConnection.getInstance().getConnection();
                         java.sql.PreparedStatement pstOTP = connectionOTP.prepareStatement(sqlOtp);
                         pstOTP.execute();
-                        
+
                         JOptionPane.showMessageDialog(null, "Silahkan aktivasi akun anda terlebih dahulu");
                         this.setVisible(false);
                         new OtpAktivasiAkun().setVisible(true);
-                    }
-                    JOptionPane.showMessageDialog(null, "berhasil login");
-                    
-                    User user = new User();
-                    user.setId(rs.getInt("id"));
-                    user.setEmail(rs.getString("email"));
-                    user.setNama(rs.getString("nama"));
-                    user.setAlamat(rs.getString("alamat"));
-                    user.setNoTelepon(rs.getString("no_telepon"));
-                    user.setTempatTanggalLahir(rs.getString("tempat_tanggal_lahir"));
-                    
-                    if (!user.getAlamat().isEmpty() && !user.getNoTelepon().isEmpty() && !user.getTempatTanggalLahir().isEmpty()) {
-                        Profil profil = new Profil();
-                        
-                        profil.setUserid(user.getId());
-                        profil.setVisible(true);
                     } else {
-                         DataSampah dataSampah = new DataSampah();
-                        
-                        dataSampah.setUserid(user.getId());
-                        dataSampah.setVisible(true);
+                        JOptionPane.showMessageDialog(null, "berhasil login");
+
+                        User user = new User();
+                        user.setId(rs.getInt("id"));
+                        user.setEmail(rs.getString("email"));
+                        user.setNama(rs.getString("nama"));
+                        user.setAlamat(rs.getString("alamat"));
+                        user.setNoTelepon(rs.getString("no_telepon"));
+                        user.setTempatTanggalLahir(rs.getString("tempat_tanggal_lahir"));
+
+                        if (rs.getString("no_telepon") ==null && rs.getString("alamat") ==null && rs.getString("tempat_tanggal_lahir") ==null) {
+                            Profil profil = new Profil();
+
+                            profil.setUserid(user.getId());
+                            profil.setVisible(true);
+                        } else {
+                            DataSampah dataSampah = new DataSampah();
+
+                            dataSampah.setUserid(user.getId());
+                            dataSampah.setVisible(true);
+                        }
                     }
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "password atau email salah");
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "password atau email salah");
+                JOptionPane.showMessageDialog(null, "Akun Belum Terdaftar. Silahkan Registrasi terlebih dahulu");
             }
-            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
@@ -249,6 +255,11 @@ public class Login extends javax.swing.JFrame {
         this.setVisible(false);
         new Register().setVisible(true);
     }//GEN-LAST:event_btnregisterActionPerformed
+
+    private void btnlupapasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlupapasswordActionPerformed
+        this.setVisible(false);
+        new LupaPassword().setVisible(true);
+    }//GEN-LAST:event_btnlupapasswordActionPerformed
 
     /**
      * @param args the command line arguments
