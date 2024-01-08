@@ -5,7 +5,6 @@ import javax.swing.JOptionPane;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author gilan
@@ -120,21 +119,33 @@ public class OtpAktivasiAkun extends javax.swing.JFrame {
 
     private void btnSubmitOtpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitOtpActionPerformed
         // TODO add your handling code here:
-         try {
+        try {
             String otpInput = new String(txtotp.getText());
 
-                String sql = "SELECT * FROM otp_verifications WHERE otp_code = "+otpInput;
-                java.sql.Connection connection=MySqlConnection.getInstance().getConnection();
-                java.sql.PreparedStatement pst=connection.prepareStatement(sql);
-                java.sql.ResultSet rs= pst.executeQuery(sql);
-                
-        if (rs.next()) {
-            
+            String sql = "SELECT * FROM otp_verifications WHERE otp_code = " + otpInput;
+            java.sql.Connection connection = MySqlConnection.getInstance().getConnection();
+            java.sql.PreparedStatement pst = connection.prepareStatement(sql);
+            java.sql.ResultSet rs = pst.executeQuery(sql);
+
+            if (rs.next()) {
+
+                String email = rs.getString("email");  // Sesuaikan dengan kolom yang sesuai di tabel otp_verifications
+
+                // Query untuk melakukan update is_active di tabel users
+                String updateIsActiveQuery = "UPDATE users SET is_active = 1 WHERE email = ?";
+                java.sql.PreparedStatement updateIsActiveStatement = connection.prepareStatement(updateIsActiveQuery);
+                updateIsActiveStatement.setString(1, email);
+                updateIsActiveStatement.executeUpdate();
+
+                String deleteOtpQuery = "DELETE FROM otp_verifications WHERE otp_code = ?";
+                java.sql.PreparedStatement deleteOtpStatement = connection.prepareStatement(deleteOtpQuery);
+                deleteOtpStatement.setString(1, otpInput);
+                deleteOtpStatement.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Berhasil aktivasi akun, silahkan login");
                 this.setVisible(false);
-                
+
                 new Login().setVisible(true);
-               
+
             } else {
                 // Jika password baru dan konfirmasi password tidak sama, berikan pesan kesalahan
                 JOptionPane.showMessageDialog(null, "Otp anda tidak valid");

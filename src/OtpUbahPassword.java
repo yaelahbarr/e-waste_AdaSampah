@@ -5,7 +5,6 @@ import javax.swing.JOptionPane;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author gilan
@@ -123,17 +122,21 @@ public class OtpUbahPassword extends javax.swing.JFrame {
         try {
             String otpInput = new String(txtotp.getText());
 
-                String sql = "SELECT * FROM otp_verifications WHERE otp_code = "+otpInput;
-                java.sql.Connection connection=MySqlConnection.getInstance().getConnection();
-                java.sql.PreparedStatement pst=connection.prepareStatement(sql);
-                java.sql.ResultSet rs= pst.executeQuery(sql);
-                
-        if (rs.next()) {
+            String sql = "SELECT * FROM otp_verifications WHERE otp_code = " + otpInput;
+            java.sql.Connection connection = MySqlConnection.getInstance().getConnection();
+            java.sql.PreparedStatement pst = connection.prepareStatement(sql);
+            java.sql.ResultSet rs = pst.executeQuery(sql);
+
+            if (rs.next()) {
+                String deleteOtpQuery = "DELETE FROM otp_verifications WHERE otp_code = ?";
+                java.sql.PreparedStatement deleteOtpStatement = connection.prepareStatement(deleteOtpQuery);
+                deleteOtpStatement.setString(1, otpInput);
+                deleteOtpStatement.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Berhasil validasi OTP, silahkan update password baru anda");
                 this.setVisible(false);
-                
+
                 UbahPassword ubahPassword = new UbahPassword();
-      
+
                 ubahPassword.setUserEmail(rs.getString("email"));
                 ubahPassword.setVisible(true);
             } else {
