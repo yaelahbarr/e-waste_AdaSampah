@@ -1,19 +1,53 @@
+
+
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSetMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author wdead
  */
 public class DataSampah extends javax.swing.JFrame {
-
-    /**
-     * Creates new form DataSampah
-     */
+    public Connection con;
+    public Statement st;
+    public ResultSet rs;
+    public DefaultTableModel model;
+    
+    
     public DataSampah() {
         initComponents();
+        String[] header = {"No", "Kategori", "Jenis", "Total"};
+        model = new DefaultTableModel(header,0);
+        tablesampah.setModel(model);
+        tampil();
+    }
+    
+    public void tampil() {
+        MySqlConnection connection = new MySqlConnection();
+        try {
+            con = connection.getConnection();
+            st = con.createStatement();
+            rs = st.executeQuery("SELECT * FROM sampah");
+            int no = 1;
+            while(rs.next()) {
+                String[] row = {Integer.toString(no), rs.getString(2), rs.getString(3), rs.getString(4)};
+                model.addRow(row);
+                no++;
+            }
+            tablesampah.setModel(model);
+            
+        } catch(SQLException e) {
+            System.out.print(e.getMessage());
+        }
     }
 
     /**
@@ -27,52 +61,107 @@ public class DataSampah extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         btnprofil = new javax.swing.JButton();
         btnlogout = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablesampah = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("DASHBOARD");
 
-        btnprofil.setText("profil");
+        jPanel2.setBackground(new java.awt.Color(0, 0, 51));
+
+        btnprofil.setBackground(new java.awt.Color(51, 102, 255));
+        btnprofil.setForeground(new java.awt.Color(255, 255, 255));
+        btnprofil.setText("Profil");
         btnprofil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnprofilActionPerformed(evt);
             }
         });
 
-        btnlogout.setText("logout");
+        btnlogout.setBackground(new java.awt.Color(51, 102, 255));
+        btnlogout.setForeground(new java.awt.Color(255, 255, 255));
+        btnlogout.setText("Logout");
         btnlogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnlogoutActionPerformed(evt);
             }
         });
 
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("E-WASTE");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnlogout, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+                            .addComponent(btnprofil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addComponent(jLabel2)))
+                .addContainerGap(35, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(jLabel2)
+                .addGap(49, 49, 49)
+                .addComponent(btnprofil)
+                .addGap(18, 18, 18)
+                .addComponent(btnlogout)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        tablesampah.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tablesampah);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnprofil)
-                .addGap(88, 88, 88)
-                .addComponent(jLabel1)
-                .addContainerGap(164, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnlogout)
-                .addGap(56, 56, 56))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 558, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(btnprofil))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 239, Short.MAX_VALUE)
-                .addComponent(btnlogout)
-                .addGap(24, 24, 24))
+                .addGap(19, 19, 19)
+                .addComponent(jLabel1)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(203, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -101,6 +190,7 @@ public class DataSampah extends javax.swing.JFrame {
 
     private void btnlogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlogoutActionPerformed
         // Pindah ke halaman kedua saat tombol diklik
+                JOptionPane.showMessageDialog(null, "Anda telah logout");
                 Login halamanlogin = new Login();
                 halamanlogin.setVisible(true);
                 dispose(); // Tutup frame utama
@@ -145,6 +235,10 @@ public class DataSampah extends javax.swing.JFrame {
     private javax.swing.JButton btnlogout;
     private javax.swing.JButton btnprofil;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tablesampah;
     // End of variables declaration//GEN-END:variables
 }
