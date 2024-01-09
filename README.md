@@ -7,10 +7,8 @@ Special Thanks to :
 - Dhaifullah Hilmy
 
 ## Team Members
-
-*Ketua* : 
-- Barra Alkhasyani Permana (213040013)
-*Anggota* :
+ 
+- Barra Alkhasyani Permana (213040013) *TEAM LEADER*
 - Muhammad Alfarozi (213040003)
 - Gilang Ramadhan (213040004)
 - Adnan Rais Purnomo (213040027)
