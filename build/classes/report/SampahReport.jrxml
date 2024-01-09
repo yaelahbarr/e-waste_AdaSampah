@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SampahReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fd229d1f-8951-4435-9556-8928c7b4653f">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQL Connection"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<queryString>
+		<![CDATA[SELECT kategori_sampah, jenis_sampah, total_sampah FROM sampah]]>
+	</queryString>
+	<field name="kategori_sampah" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="kategori_sampah"/>
+		<property name="com.jaspersoft.studio.field.label" value="kategori_sampah"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sampah"/>
+	</field>
+	<field name="jenis_sampah" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="jenis_sampah"/>
+		<property name="com.jaspersoft.studio.field.label" value="jenis_sampah"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sampah"/>
+	</field>
+	<field name="total_sampah" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="total_sampah"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_sampah"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sampah"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="79" uuid="18ac89a8-9e25-42d5-a4ab-13ee8dfb6beb">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Sampah]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="180" height="30" uuid="7b338fa2-7eae-4271-a980-1ce65fc3507a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5185d7f9-9833-4959-883b-cc7e63b9e57a"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Kategori Sampah]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="0" width="200" height="30" uuid="bc14f22b-c635-4d60-a2ca-988d716e1aa9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="abcded6d-22a3-4fc1-adb8-719b9439988e"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Jenis Sampah]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="0" width="175" height="30" uuid="ab03f446-5aec-4730-bcd9-ed9fd9a83434">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bc9284e3-f51a-4e6c-92b1-af4644d09b73"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Total Sampah]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="180" height="30" uuid="ca0dc8d9-aa66-486d-8d93-693c1c849bfb">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5185d7f9-9833-4959-883b-cc7e63b9e57a"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="10">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{kategori_sampah}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="0" width="200" height="30" uuid="c0c4e96a-c402-4cec-9a5c-51f9fb881313">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="abcded6d-22a3-4fc1-adb8-719b9439988e"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="10">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{jenis_sampah}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="0" width="175" height="30" uuid="bb7e9c2d-6497-4542-aed5-a4583350ae02">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bc9284e3-f51a-4e6c-92b1-af4644d09b73"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="10">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{total_sampah}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
