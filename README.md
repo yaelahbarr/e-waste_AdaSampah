@@ -3,16 +3,18 @@
 ## Credits
 
 Special Thanks to :
-Wanda Gusdya Purnama, ST., MT
-Dhaifullah Hilmy
+- Wanda Gusdya Purnama, ST., MT
+- Dhaifullah Hilmy
 
 ## Team Members
 
-- *Ketua* : Barra Alkhasyani Permana (213040013)
-- *Anggota* : - Muhammad Alfarozi (213040003)
-              - Gilang Ramadhan (213040004)
-              - Adnan Rais Purnomo (213040027)
-              - Faqih Firdaus Kemal Pangestu (213040033)
+*Ketua* : 
+- Barra Alkhasyani Permana (213040013)
+*Anggota* :
+- Muhammad Alfarozi (213040003)
+- Gilang Ramadhan (213040004)
+- Adnan Rais Purnomo (213040027)
+- Faqih Firdaus Kemal Pangestu (213040033)
 
 ## Project Theme
 
