@@ -74,5 +74,8 @@ public class User {
         this.alamat = alamat;
     }
     
+      public boolean isDataKosong() {
+        return noTelepon.isEmpty() || tempatTanggalLahir.isEmpty() || alamat.isEmpty();
+    }
 }
 

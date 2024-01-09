@@ -226,17 +226,25 @@ public class Login extends javax.swing.JFrame {
                         user.setAlamat(rs.getString("alamat"));
                         user.setNoTelepon(rs.getString("no_telepon"));
                         user.setTempatTanggalLahir(rs.getString("tempat_tanggal_lahir"));
+                        this.setVisible(false);
+                        if (rs.getString("no_telepon") != null && rs.getString("alamat") != null && rs.getString("tempat_tanggal_lahir") != null) {
 
-                        if (rs.getString("no_telepon") ==null && rs.getString("alamat") ==null && rs.getString("tempat_tanggal_lahir") ==null) {
+                            if (!user.isDataKosong()) {
+
+                                DataSampah dataSampah = new DataSampah();
+
+                                dataSampah.setUserid(user.getId());
+                                dataSampah.setVisible(true);
+                            } else {
+                                Profil profil = new Profil();
+                                profil.setUserid(user.getId());
+                                profil.setVisible(true);
+                            }
+                        } else {
+
                             Profil profil = new Profil();
-
                             profil.setUserid(user.getId());
                             profil.setVisible(true);
-                        } else {
-                            DataSampah dataSampah = new DataSampah();
-
-                            dataSampah.setUserid(user.getId());
-                            dataSampah.setVisible(true);
                         }
                     }
 

@@ -306,7 +306,14 @@ public class Profil extends javax.swing.JFrame {
     }//GEN-LAST:event_btndeleteActionPerformed
 
     private void btndatasampahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndatasampahActionPerformed
+        
+           String sqlquery = "SELECT * FROM user WHERE id="+this.userid;
+            java.sql.Connection connection = MySqlConnection.getInstance().getConnection();
+            java.sql.PreparedStatement pst = connection.prepareStatement(sqlquery);
+            java.sql.ResultSet rs = pst.executeQuery(sqlquery);
+            
         DataSampah halamanDashboard = new DataSampah();
+        halamanDashboard.setUserid(this.userid);
         halamanDashboard.setVisible(true);
         dispose(); // Tutup frame utama
     }//GEN-LAST:event_btndatasampahActionPerformed
