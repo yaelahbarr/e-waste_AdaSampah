@@ -83,6 +83,7 @@ public class DataSampah extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablesampah = new javax.swing.JTable();
         btnprint = new javax.swing.JButton();
+        btnpreview = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -163,6 +164,13 @@ public class DataSampah extends javax.swing.JFrame {
             }
         });
 
+        btnpreview.setText("Preview");
+        btnpreview.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnpreviewActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -173,7 +181,10 @@ public class DataSampah extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 558, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnprint))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnprint)
+                        .addGap(36, 36, 36)
+                        .addComponent(btnpreview)))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -184,7 +195,9 @@ public class DataSampah extends javax.swing.JFrame {
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
-                .addComponent(btnprint)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnprint)
+                    .addComponent(btnpreview))
                 .addGap(27, 27, 27))
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -248,6 +261,33 @@ public class DataSampah extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnprintActionPerformed
 
+    private void btnpreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnpreviewActionPerformed
+        MySqlConnection connection = new MySqlConnection();
+        try {
+            con = connection.getConnection();
+
+            String jrxmlFilePath = "src/report/SampahReport.jrxml";
+            // Kompilasi file .jrxml menjadi .jasper
+            JasperCompileManager.compileReportToFile(jrxmlFilePath);
+
+            // Path menuju file .jasper
+            String jasperFilePath = "src/report/SampahReport.jasper";
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperFilePath, new HashMap<>(), con);
+
+            // Menampilkan laporan menggunakan JasperViewer
+            JasperViewer.viewReport(jasperPrint, false);
+
+            if (con != null && !con.isClosed()) {
+                con.close();
+            }
+            System.out.println("Laporan berhasil ditampilkan");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error saat menampilkan laporan: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnpreviewActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -285,6 +325,7 @@ public class DataSampah extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnlogout;
+    private javax.swing.JButton btnpreview;
     private javax.swing.JButton btnprint;
     private javax.swing.JButton btnprofil;
     private javax.swing.JLabel jLabel1;
